@@ -24,12 +24,14 @@
   Components only display data; they don't hard-code text.
 
 ## Design
-- One-page site, dark theme, mobile-first, fast (aim for Lighthouse Performance 90+).
-- Professional, editorial look that doesn't feel AI-generated: neutral dark palette, one warm
-  accent, serif headings, sans body, section titles in a left column, thin divider lines.
-- Avoid: neon glows, gradient text, glassmorphism, glowing borders, purple/cyan "AI" palettes,
-  emoji, numbered gradient cards, heavy motion.
-- Sections: Header, Hero, About, Skills, Experience, Projects, "How I build with AI", Contact, Footer.
+- One-page site, mobile-first, fast (aim for Lighthouse Performance 90+).
+- Recruiter-first, dimmed slate theme (like GitHub "dark dimmed"): soft grey-blue background,
+  slightly lighter sections and cards, light text, one sky-blue accent, green for "current",
+  amber only for "in progress". No black + gold/orange (looked like a restaurant). Easy to scan in seconds: name, role, current job, keyword chips, timeline, contact.
+- Avoid: neon glows, blurred colour blobs, gradient text, glassmorphism, marquees, emoji,
+  heavy motion. Motion stays subtle (short fade-ins, small hover lifts).
+- Sections: Header, Hero (with "at a glance" facts), About, Skills, Experience, Projects,
+  Education & certifications, "How I build with AI", Contact, Footer.
 
 ## Content (source of truth: my CV)
 - Name: Hamza Abuqiyas. Title: .NET Developer | C# | ASP.NET Core | SQL Server | Angular

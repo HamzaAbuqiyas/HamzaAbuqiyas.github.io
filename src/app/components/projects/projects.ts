@@ -6,45 +6,43 @@ import { RevealDirective } from '../../shared/reveal.directive';
   selector: 'app-projects',
   imports: [RevealDirective],
   template: `
-    <section id="projects" class="section" aria-labelledby="projects-title">
-      <div class="container section-grid">
-        <h2 id="projects-title" class="section-label">{{ heading() }}</h2>
-        <div class="list">
-          @for (project of projects(); track project.name) {
-            <article class="project" appReveal>
-              <header class="head">
+    <section id="projects" class="section section--soft" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-head" appReveal>
+          <h2 id="projects-title" class="section-title">{{ heading() }}</h2>
+        </div>
+        <div class="grid">
+          @for (project of projects(); track project.name; let i = $index) {
+            <article class="card project" appReveal [revealDelay]="i * 0.08">
+              <header class="top">
                 <h3>{{ project.name }}</h3>
                 @if (project.status === 'in-progress') {
-                  <span class="status status--progress">In progress</span>
+                  <span class="badge badge--info badge--dot">In progress</span>
                 } @else {
-                  <span class="status">Completed</span>
+                  <span class="badge badge--success badge--dot">Completed</span>
                 }
               </header>
               <p class="subtitle">{{ project.subtitle }}</p>
               <p class="desc">{{ project.description }}</p>
-              <ul class="points">
+              <ul class="bullets">
                 @for (h of project.highlights; track $index) {
                   <li>{{ h }}</li>
                 }
               </ul>
-              <ul class="tech" aria-label="Technologies">
+              <ul class="chips" aria-label="Technologies">
                 @for (t of project.tech; track t) {
                   <li>{{ t }}</li>
                 }
               </ul>
               @if (project.repoUrl || project.liveUrl) {
-                <p class="links">
+                <div class="links">
                   @if (project.repoUrl) {
-                    <a class="arrow-link" [href]="project.repoUrl" target="_blank" rel="noopener">
-                      Source code <span aria-hidden="true">↗</span>
-                    </a>
+                    <a class="btn btn--secondary btn--sm" [href]="project.repoUrl" target="_blank" rel="noopener">Source code</a>
                   }
                   @if (project.liveUrl) {
-                    <a class="arrow-link" [href]="project.liveUrl" target="_blank" rel="noopener">
-                      Live demo <span aria-hidden="true">↗</span>
-                    </a>
+                    <a class="btn btn--sm" [href]="project.liveUrl" target="_blank" rel="noopener">Live demo</a>
                   }
-                </p>
+                </div>
               }
             </article>
           }
@@ -53,44 +51,54 @@ import { RevealDirective } from '../../shared/reveal.directive';
     </section>
   `,
   styles: `
-    .project {
-      padding-bottom: 44px;
-      & + & {
-        padding-top: 44px;
-        border-top: 1px solid var(--line);
+    .grid {
+      display: grid;
+      gap: 20px;
+      @media (min-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
-    .head {
+    .project {
       display: flex;
-      align-items: baseline;
+      flex-direction: column;
+      &:hover {
+        transform: translateY(-2px);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+    .top {
+      display: flex;
       justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 12px;
     }
     h3 {
-      font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2rem);
-      letter-spacing: -0.01em;
+      font-size: 1.35rem;
     }
     .subtitle {
-      margin-top: 6px;
-      color: var(--text);
+      margin-top: 4px;
+      font-weight: 600;
+      color: var(--accent);
     }
     .desc {
-      margin-top: 14px;
-      max-width: 62ch;
-      color: var(--muted);
+      margin-top: 12px;
+      color: var(--text-2);
     }
-    .points {
-      margin-top: 18px;
+    .bullets {
+      margin-top: 16px;
+      flex: 1;
     }
-    .tech {
+    .chips {
       margin-top: 20px;
     }
     .links {
       margin-top: 20px;
       display: flex;
-      gap: 24px;
+      gap: 10px;
     }
   `,
 })

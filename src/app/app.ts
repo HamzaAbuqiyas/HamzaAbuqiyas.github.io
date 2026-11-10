@@ -3,6 +3,8 @@ import { PORTFOLIO } from './data/portfolio.data';
 import { About } from './components/about/about';
 import { AiWorkflow } from './components/ai-workflow/ai-workflow';
 import { Contact } from './components/contact/contact';
+import { CvDownload } from './components/cv-download/cv-download';
+import { Education } from './components/education/education';
 import { Experience } from './components/experience/experience';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
@@ -12,7 +14,7 @@ import { Skills } from './components/skills/skills';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, Hero, About, Skills, Experience, Projects, AiWorkflow, Contact, Footer],
+  imports: [Header, Hero, About, Skills, Experience, Projects, Education, CvDownload, AiWorkflow, Contact, Footer],
   templateUrl: './app.html',
 })
 export class App {

@@ -1,5 +1,26 @@
 <div class="container bar">
-  <a class="brand" href="#top" (click)="closeMenu()">{{ name() }}</a>
+  <a class="brand" href="#top" (click)="closeMenu()">
+    <span class="monogram" aria-hidden="true">{{ initials() }}</span>
+    <span>{{ name() }}</span>
+  </a>
+
+  <nav id="site-nav" class="nav" [class.open]="menuOpen()" aria-label="Main">
+    <ul>
+      @for (link of links(); track link.target; let last = $last) {
+        <li>
+          <a
+            [href]="'#' + link.target"
+            [class.active]="activeId() === link.target"
+            [class.btn]="last"
+            [class.btn--sm]="last"
+            [attr.aria-current]="activeId() === link.target ? 'true' : null"
+            (click)="closeMenu()"
+            >{{ link.label }}</a
+          >
+        </li>
+      }
+    </ul>
+  </nav>
 
   <button
     type="button"
@@ -8,16 +29,7 @@
     aria-controls="site-nav"
     (click)="toggleMenu()"
   >
-    {{ menuOpen() ? 'Close' : 'Menu' }}
+    <span class="bars" [class.open]="menuOpen()" aria-hidden="true"></span>
+    <span class="sr-only">Menu</span>
   </button>
-
-  <nav id="site-nav" class="nav" [class.open]="menuOpen()" aria-label="Main">
-    <ul>
-      @for (link of links(); track link.target) {
-        <li>
-          <a [href]="'#' + link.target" (click)="closeMenu()">{{ link.label }}</a>
-        </li>
-      }
-    </ul>
-  </nav>
 </div>

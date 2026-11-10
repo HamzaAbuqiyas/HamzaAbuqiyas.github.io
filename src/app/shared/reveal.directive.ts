@@ -31,10 +31,12 @@ export class RevealDirective {
           if (destroyed) return;
           const tween = gsap.from(this.el.nativeElement, {
             autoAlpha: 0,
-            y: 16,
-            duration: 0.7,
-            ease: 'power2.out',
+            y: 18,
+            duration: 0.8,
+            ease: 'power3.out',
             delay: this.revealDelay(),
+            // Remove GSAP's inline styles afterwards, so CSS hover effects work normally.
+            clearProps: 'all',
             scrollTrigger: { trigger: this.el.nativeElement, start: 'top 90%', once: true },
           });
           cleanup = () => {

@@ -7,31 +7,44 @@ import { RevealDirective } from '../../shared/reveal.directive';
   imports: [RevealDirective],
   template: `
     <section id="experience" class="section" aria-labelledby="experience-title">
-      <div class="container section-grid">
-        <h2 id="experience-title" class="section-label">{{ heading() }}</h2>
-        <ol class="jobs">
+      <div class="container">
+        <div class="section-head" appReveal>
+          <h2 id="experience-title" class="section-title">{{ heading() }}</h2>
+        </div>
+        <ol class="timeline">
           @for (job of items(); track job.company + job.role) {
-            <li class="job" appReveal>
-              <p class="period">{{ job.period }}</p>
-              <div>
-                <h3>
-                  {{ job.role }} <span class="company">· {{ job.company }}</span>
-                </h3>
+            <li class="entry" appReveal>
+              <span class="node" [class.current]="job.period.includes('Present')" aria-hidden="true"></span>
+              <article class="card">
+                <header class="top">
+                  <div>
+                    <h3>{{ job.role }}</h3>
+                    <p class="company">
+                      {{ job.company }}
+                      @if (job.location) {
+                        <span class="muted"> · {{ job.location }}</span>
+                      }
+                    </p>
+                  </div>
+                  <span class="badge" [class.badge--success]="job.period.includes('Present')">
+                    {{ job.period }}
+                  </span>
+                </header>
                 @if (job.highlights.length) {
-                  <ul class="points">
+                  <ul class="bullets">
                     @for (h of job.highlights; track $index) {
                       <li>{{ h }}</li>
                     }
                   </ul>
                 }
                 @if (job.tech.length) {
-                  <ul class="tech" aria-label="Technologies">
+                  <ul class="chips" aria-label="Technologies">
                     @for (t of job.tech; track t) {
                       <li>{{ t }}</li>
                     }
                   </ul>
                 }
-              </div>
+              </article>
             </li>
           }
         </ol>
@@ -39,41 +52,65 @@ import { RevealDirective } from '../../shared/reveal.directive';
     </section>
   `,
   styles: `
-    .jobs {
+    .timeline {
       list-style: none;
-    }
-    .job {
+      position: relative;
       display: grid;
-      gap: 8px;
-      padding-bottom: 36px;
+      gap: 20px;
       @media (min-width: 640px) {
-        grid-template-columns: 170px 1fr;
-        gap: 24px;
-      }
-      & + & {
-        padding-top: 36px;
-        border-top: 1px solid var(--line);
+        padding-left: 36px;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 9px;
+          top: 12px;
+          bottom: 12px;
+          width: 2px;
+          background: var(--line);
+        }
       }
     }
-    .period {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--muted);
-      padding-top: 4px;
+    .entry {
+      position: relative;
+    }
+    .node {
+      display: none;
+      @media (min-width: 640px) {
+        display: block;
+        position: absolute;
+        left: -36px;
+        top: 30px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 4px solid var(--line-strong);
+        &.current {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 4px var(--accent-soft);
+        }
+      }
+    }
+    .top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px 20px;
     }
     h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
+      font-size: 1.2rem;
     }
     .company {
-      font-weight: 400;
-      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 600;
+      color: var(--accent);
     }
-    .points {
-      margin-top: 14px;
+    .bullets {
+      margin-top: 18px;
     }
-    .tech {
-      margin-top: 16px;
+    .chips {
+      margin-top: 18px;
     }
   `,
 })

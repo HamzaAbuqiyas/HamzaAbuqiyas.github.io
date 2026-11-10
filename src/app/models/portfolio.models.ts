@@ -11,6 +11,17 @@ export interface Profile {
   tagline: string;
   location: string;
   availability: string;
+  photo?: Photo;
+  /** Short facts shown under the hero, e.g. "Based in — Amman, Jordan". */
+  facts: LabeledItem[];
+}
+
+export interface Photo {
+  /** Path inside the public/ folder. */
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
 
 /** Titles shown next to each section. */
@@ -19,6 +30,8 @@ export interface SectionHeadings {
   skills: string;
   experience: string;
   projects: string;
+  education: string;
+  cv: string;
   ai: string;
   contact: string;
 }
@@ -26,12 +39,21 @@ export interface SectionHeadings {
 export interface About {
   paragraphs: string[];
   education: Education;
+  languages: LabeledItem[];
+  certifications: LabeledItem[];
 }
 
 export interface Education {
   degree: string;
   school: string;
   period: string;
+  coursework?: string[];
+}
+
+/** A name with a short detail, e.g. a language and its level, or a certificate and its issuer. */
+export interface LabeledItem {
+  name: string;
+  detail: string;
 }
 
 export interface SkillGroup {
@@ -48,6 +70,7 @@ export interface Skill {
 export interface ExperienceItem {
   role: string;
   company: string;
+  location?: string;
   period: string;
   highlights: string[];
   tech: string[];
@@ -87,6 +110,23 @@ export interface Contact {
   heading: string;
   message: string;
   links: ContactLink[];
+  /** Labels for the "copy email" button. */
+  copyLabel: string;
+  copiedLabel: string;
+}
+
+/** The downloadable CV (PDF in the public/ folder). */
+export interface Cv {
+  /** Path inside public/, e.g. 'files/cv.pdf'. */
+  url: string;
+  /** File name used when the visitor downloads it. */
+  fileName: string;
+  title: string;
+  description: string;
+  /** Small details under the title, e.g. "PDF · 1 page · 46 KB". */
+  meta: string;
+  downloadLabel: string;
+  viewLabel: string;
 }
 
 export interface PortfolioData {
@@ -98,5 +138,6 @@ export interface PortfolioData {
   experience: ExperienceItem[];
   projects: Project[];
   ai: AiSection;
+  cv: Cv;
   contact: Contact;
 }

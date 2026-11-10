@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { Contact as ContactData } from '../../models/portfolio.models';
+import { Component, computed, input, signal } from '@angular/core';
+import { Contact as ContactData, Cv } from '../../models/portfolio.models';
 import { RevealDirective } from '../../shared/reveal.directive';
 
 @Component({
@@ -7,66 +7,85 @@ import { RevealDirective } from '../../shared/reveal.directive';
   imports: [RevealDirective],
   template: `
     <section id="contact" class="section" aria-labelledby="contact-title">
-      <div class="container section-grid">
-        <h2 id="contact-title" class="section-label">{{ heading() }}</h2>
-        <div appReveal>
-          <p class="headline">{{ contact().heading }}</p>
-          <p class="message">{{ contact().message }}</p>
-          <p class="where">{{ location() }} — {{ availability() }}</p>
-          @if (contact().links.length) {
-            <ul class="links">
-              @for (link of contact().links; track link.url) {
-                <li>
-                  <span class="label">{{ link.label }}</span>
-                  <a [href]="link.url" target="_blank" rel="noopener">{{ link.value }}</a>
-                </li>
-              }
-            </ul>
-          }
+      <div class="container">
+        <div class="panel" appReveal>
+          <div>
+            <h2 id="contact-title" class="headline">{{ contact().heading }}</h2>
+            <p class="message">{{ contact().message }}</p>
+            <p class="where">{{ location() }} · {{ availability() }}</p>
+          </div>
+
+          <div class="actions">
+            @if (email(); as link) {
+              <a class="btn btn--light" [href]="link.url">{{ link.value }}</a>
+              <button type="button" class="btn btn--outline" (click)="copy(link.value)">
+                <span aria-live="polite">{{ copied() ? contact().copiedLabel : contact().copyLabel }}</span>
+              </button>
+            }
+            @if (cv(); as file) {
+              <a class="btn btn--outline" [href]="file.url" [attr.download]="file.fileName">{{ file.downloadLabel }}</a>
+            }
+            @for (link of others(); track link.url) {
+              <a class="btn btn--outline" [href]="link.url" target="_blank" rel="noopener">{{ link.label }}</a>
+            }
+          </div>
         </div>
       </div>
     </section>
   `,
   styles: `
+    .panel {
+      display: grid;
+      gap: 28px;
+      padding: 36px 24px;
+      border-radius: 20px;
+      color: var(--text);
+      border: 1px solid rgb(var(--accent-rgb) / 0.25);
+      background:
+        radial-gradient(36rem 20rem at 100% 0%, rgb(var(--accent-rgb) / 0.16), transparent 65%),
+        linear-gradient(160deg, #2d333b, #262c33);
+      box-shadow: var(--shadow-lg);
+      @media (min-width: 900px) {
+        grid-template-columns: 1.2fr 1fr;
+        align-items: center;
+        padding: 56px;
+      }
+    }
     .headline {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 6vw, 3.6rem);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      color: var(--text);
     }
     .message {
-      margin-top: 18px;
-      max-width: 54ch;
-      color: var(--muted);
+      margin-top: 12px;
+      max-width: 50ch;
+      color: var(--text-2);
+      font-size: 1.05rem;
     }
     .where {
       margin-top: 10px;
-      font-family: var(--mono);
-      font-size: 0.8rem;
+      font-size: 0.92rem;
       color: var(--muted);
     }
-    .links {
-      margin-top: 36px;
-      list-style: none;
-      border-top: 1px solid var(--line);
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      @media (min-width: 900px) {
+        justify-content: flex-end;
+      }
     }
-    .links li {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .label {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding-top: 3px;
-    }
-    a {
+    .btn--light {
       overflow-wrap: anywhere;
+    }
+    .btn--outline {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--line-strong);
+      box-shadow: none;
+      &:hover {
+        background: var(--surface);
+        box-shadow: none;
+      }
     }
   `,
 })
@@ -75,4 +94,20 @@ export class Contact {
   readonly contact = input.required<ContactData>();
   readonly location = input.required<string>();
   readonly availability = input.required<string>();
+  readonly cv = input<Cv>();
+
+  protected readonly copied = signal(false);
+  /** Email gets its own buttons; other links (LinkedIn, GitHub…) follow. */
+  protected readonly email = computed(() => this.contact().links.find((l) => l.url.startsWith('mailto:')));
+  protected readonly others = computed(() => this.contact().links.filter((l) => !l.url.startsWith('mailto:')));
+
+  protected async copy(text: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(text);
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 2000);
+    } catch {
+      // Clipboard not available (old browser or blocked); the email link still works.
+    }
+  }
 }

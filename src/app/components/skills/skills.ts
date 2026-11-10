@@ -6,21 +6,18 @@ import { RevealDirective } from '../../shared/reveal.directive';
   selector: 'app-skills',
   imports: [RevealDirective],
   template: `
-    <section id="skills" class="section" aria-labelledby="skills-title">
-      <div class="container section-grid">
-        <h2 id="skills-title" class="section-label">{{ heading() }}</h2>
-        <div class="groups">
+    <section id="skills" class="section section--soft" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-head" appReveal>
+          <h2 id="skills-title" class="section-title">{{ heading() }}</h2>
+        </div>
+        <div class="grid">
           @for (group of groups(); track group.name; let i = $index) {
-            <div class="group" appReveal [revealDelay]="i * 0.06">
+            <div class="card" appReveal [revealDelay]="(i % 3) * 0.06">
               <h3>{{ group.name }}</h3>
-              <ul>
+              <ul class="chips">
                 @for (skill of group.skills; track skill.name) {
-                  <li>
-                    {{ skill.name }}
-                    @if (skill.learning) {
-                      <span class="learning">learning</span>
-                    }
-                  </li>
+                  <li [class.learning]="skill.learning">{{ skill.name }}</li>
                 }
               </ul>
             </div>
@@ -30,32 +27,24 @@ import { RevealDirective } from '../../shared/reveal.directive';
     </section>
   `,
   styles: `
-    .groups {
+    .grid {
       display: grid;
-      gap: 40px 48px;
+      gap: 16px;
       @media (min-width: 640px) {
         grid-template-columns: repeat(2, 1fr);
+      }
+      @media (min-width: 1000px) {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
     h3 {
       font-size: 1rem;
-      font-weight: 600;
-      padding-bottom: 12px;
-      margin-bottom: 14px;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 16px;
     }
-    ul {
-      list-style: none;
-      color: var(--muted);
-    }
-    li + li {
-      margin-top: 6px;
-    }
-    .learning {
-      margin-left: 8px;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--accent);
+    .chips .learning {
+      background: var(--info-soft);
+      border-color: rgb(210 153 34 / 0.4);
+      color: var(--info);
     }
   `,
 })

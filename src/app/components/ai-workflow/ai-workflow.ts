@@ -7,41 +7,60 @@ import { RevealDirective } from '../../shared/reveal.directive';
   imports: [RevealDirective],
   template: `
     <section id="ai" class="section" aria-labelledby="ai-title">
-      <div class="container section-grid">
-        <h2 id="ai-title" class="section-label">{{ heading() }}</h2>
-        <div>
-          <p class="lead" appReveal>{{ ai().intro }}</p>
-          <dl class="practices">
-            @for (practice of ai().practices; track practice.title; let i = $index) {
-              <div class="practice" appReveal [revealDelay]="i * 0.06">
-                <dt>{{ practice.title }}</dt>
-                <dd>{{ practice.description }}</dd>
-              </div>
-            }
-          </dl>
+      <div class="container">
+        <div class="section-head" appReveal>
+          <h2 id="ai-title" class="section-title">{{ heading() }}</h2>
+          <p class="intro">{{ ai().intro }}</p>
         </div>
+        <ol class="grid">
+          @for (practice of ai().practices; track practice.title; let i = $index) {
+            <li class="card" appReveal [revealDelay]="i * 0.06">
+              <span class="step" aria-hidden="true">{{ i + 1 }}</span>
+              <h3>{{ practice.title }}</h3>
+              <p>{{ practice.description }}</p>
+            </li>
+          }
+        </ol>
       </div>
     </section>
   `,
   styles: `
-    .practices {
-      margin: 44px 0 0;
+    .intro {
+      margin-top: 12px;
+      max-width: 64ch;
+      font-size: 1.05rem;
+      color: var(--text-2);
+    }
+    .grid {
+      list-style: none;
       display: grid;
-      gap: 32px 48px;
+      gap: 16px;
       @media (min-width: 640px) {
         grid-template-columns: repeat(2, 1fr);
       }
+      @media (min-width: 1000px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
     }
-    .practice {
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
+    .step {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 16px;
+      border-radius: 9px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.9rem;
     }
-    dt {
-      font-weight: 600;
+    h3 {
+      font-size: 1.02rem;
     }
-    dd {
-      margin: 6px 0 0;
+    p {
+      margin-top: 6px;
       color: var(--muted);
+      font-size: 0.95rem;
     }
   `,
 })

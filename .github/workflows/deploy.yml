@@ -1,0 +1,60 @@
+# Builds the Angular site and publishes it to GitHub Pages on every push to master.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  # Also allow running it by hand from the "Actions" tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; a newer push cancels an older one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Run tests
+        run: npx ng test --watch=false
+
+      # The repo is named <username>.github.io, so the site lives at the root: base-href "/".
+      # If you ever use a different repo name, change this to "/<repo-name>/".
+      - name: Build
+        run: npx ng build --base-href /
+
+      # GitHub Pages shows 404.html for unknown paths; reuse the app page.
+      - name: Add 404 page
+        run: cp dist/portfolio/browser/index.html dist/portfolio/browser/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/portfolio/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

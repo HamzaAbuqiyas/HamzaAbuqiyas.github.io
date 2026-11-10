@@ -1,0 +1,233 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding-top: calc(var(--header-h) + 48px);
+  padding-bottom: 64px;
+
+  /* A soft warm light from the top right, fading into the page. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(48rem 32rem at 88% 8%, rgb(var(--accent-rgb) / 0.13), transparent 65%),
+      radial-gradient(40rem 26rem at 0% 100%, rgb(255 255 255 / 0.03), transparent 70%);
+  }
+
+  @media (min-width: 900px) {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--header-h) + 64px);
+    padding-bottom: 80px;
+
+    > .container {
+      width: 100%;
+    }
+  }
+}
+
+.layout {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 380px;
+    gap: 72px;
+  }
+}
+
+.name {
+  margin-top: 22px;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.role {
+  margin-top: 14px;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+/* Main stack under the role: "C#  ·  ASP.NET Core  ·  SQL Server" */
+.stack {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  list-style: none;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text-2);
+
+  li:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin: 0 12px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background: var(--line-strong);
+  }
+}
+
+.tagline {
+  margin-top: 22px;
+  max-width: 52ch;
+  font-size: 1.08rem;
+  color: var(--muted);
+}
+
+.actions {
+  margin-top: 34px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- Photo ---------- */
+
+/* A clean portrait crop (head and shoulders) that lines up with the text. */
+.photo {
+  position: relative;
+  order: -1;
+  margin: 0;
+  width: min(260px, 70%);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+
+  @media (min-width: 900px) {
+    order: 0;
+    width: 100%;
+  }
+
+  img {
+    object-fit: cover;
+    /* Keep the face in frame: show the top part of the picture. */
+    object-position: 50% 12%;
+    /* Tone down the bright green background so it sits with the slate colours. */
+    filter: saturate(0.78) contrast(1.04) brightness(0.97);
+    transition: transform 0.6s ease;
+  }
+
+  /* Soft fade at the bottom and a faint blue tint so the photo blends into the hero. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to top, rgb(34 39 46 / 0.55) 0%, rgb(34 39 46 / 0) 35%),
+      linear-gradient(rgb(var(--accent-rgb) / 0.06), rgb(var(--accent-rgb) / 0.06));
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* ---------- At a glance ---------- */
+
+.glance {
+  margin: 64px 0 0;
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--line);
+  box-shadow: var(--shadow-sm);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1000px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.fact {
+  position: relative;
+  padding: 18px 20px 18px 22px;
+  background: var(--surface);
+
+  /* Thin gold mark on the left of each fact. */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    bottom: 18px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: var(--accent);
+    opacity: 0.8;
+  }
+
+  dt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 4px 0 0;
+    font-weight: 600;
+  }
+}
+
+/* ---------- Entrance ---------- */
+
+$ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.text > * {
+  animation: appear 0.7s $ease both;
+}
+
+@for $i from 2 through 7 {
+  .text > :nth-child(#{$i}) {
+    animation-delay: #{($i - 1) * 0.06}s;
+  }
+}
+
+.photo {
+  animation: appear 0.8s 0.15s $ease both;
+}
+
+.glance {
+  animation: appear 0.7s 0.45s $ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text > *,
+  .photo,
+  .glance {
+    animation: none;
+  }
+
+  .photo:hover img {
+    transform: none;
+  }
+}

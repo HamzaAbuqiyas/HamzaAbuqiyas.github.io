@@ -1,64 +1,68 @@
-import { Component, input } from '@angular/core';
-import { Profile } from '../../models/portfolio.models';
+import { NgOptimizedImage } from '@angular/common';
+import { Component, computed, input } from '@angular/core';
+import { Cv, Profile } from '../../models/portfolio.models';
 
 @Component({
   selector: 'app-hero',
+  imports: [NgOptimizedImage],
   template: `
     <section id="top" class="hero" aria-labelledby="hero-name">
       <div class="container">
-        <p class="meta">{{ profile().location }} — {{ profile().availability }}</p>
-        <h1 id="hero-name" class="name">{{ profile().name }}</h1>
-        <p class="title">{{ profile().title }}</p>
-        <p class="tagline">{{ profile().tagline }}</p>
-        <div class="actions">
-          <a class="btn" href="#projects">View projects</a>
-          <a class="arrow-link" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+        <div class="layout">
+          <div class="text">
+            <span class="badge badge--success badge--dot">{{ profile().availability }}</span>
+            <h1 id="hero-name" class="name">{{ profile().name }}</h1>
+            <p class="role">{{ role() }}</p>
+            @if (stack().length) {
+              <ul class="stack" aria-label="Main technologies">
+                @for (item of stack(); track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            }
+            <p class="tagline">{{ profile().tagline }}</p>
+            <div class="actions">
+              <a class="btn" href="#contact">Contact me</a>
+              @if (cv(); as file) {
+                <a class="btn btn--secondary" [href]="file.url" [attr.download]="file.fileName">
+                  <span aria-hidden="true">↓</span> {{ file.downloadLabel }}
+                </a>
+              } @else {
+                <a class="btn btn--secondary" href="#projects">View projects</a>
+              }
+            </div>
+          </div>
+
+          @if (profile().photo; as photo) {
+            <figure class="photo">
+              <img [ngSrc]="photo.src" [alt]="photo.alt" fill priority sizes="(min-width: 900px) 33vw, 70vw" />
+            </figure>
+          }
         </div>
+
+        <dl class="glance">
+          @for (fact of profile().facts; track fact.name) {
+            <div class="fact">
+              <dt>{{ fact.name }}</dt>
+              <dd>{{ fact.detail }}</dd>
+            </div>
+          }
+        </dl>
       </div>
     </section>
   `,
-  styles: `
-    .hero {
-      padding-top: calc(var(--header-h) + 96px);
-      padding-bottom: 96px;
-      @media (min-width: 900px) {
-        padding-top: calc(var(--header-h) + 150px);
-        padding-bottom: 130px;
-      }
-    }
-    .meta {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-    }
-    .name {
-      margin-top: 20px;
-      font-family: var(--serif);
-      font-size: clamp(3rem, 9vw, 6.25rem);
-      font-weight: 500;
-      letter-spacing: -0.025em;
-      line-height: 1.02;
-    }
-    .title {
-      margin-top: 22px;
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      color: var(--text);
-    }
-    .tagline {
-      margin-top: 10px;
-      max-width: 52ch;
-      color: var(--muted);
-    }
-    .actions {
-      margin-top: 40px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 28px;
-    }
-  `,
+  styleUrl: './hero.scss',
 })
 export class Hero {
   readonly profile = input.required<Profile>();
-}
+  readonly cv = input<Cv>();
+
+  /** ".NET Developer | C# | ASP.NET Core" → role ".NET Developer" + stack ["C#", "ASP.NET Core"]. */
+  private readonly titleParts = computed(() =>
+    this.profile()
+      .title.split('|')
+      .map((part) => part.trim())
+      .filter(Boolean),
+  );
+  protected readonly role = computed(() => this.titleParts()[0] ?? '');
+  protected readonly stack = computed(() => this.titleParts().slice(1));}

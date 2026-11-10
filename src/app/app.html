@@ -3,17 +3,24 @@
 <app-header [name]="data.profile.name" [links]="data.nav" />
 
 <main id="main">
-  <app-hero [profile]="data.profile" />
+  <app-hero [profile]="data.profile" [cv]="data.cv" />
   <app-about [heading]="data.headings.about" [about]="data.about" />
   <app-skills [heading]="data.headings.skills" [groups]="data.skillGroups" />
   <app-experience [heading]="data.headings.experience" [items]="data.experience" />
   <app-projects [heading]="data.headings.projects" [projects]="data.projects" />
+  <app-education
+    [heading]="data.headings.education"
+    [education]="data.about.education"
+    [certifications]="data.about.certifications"
+  />
+  <app-cv-download [heading]="data.headings.cv" [cv]="data.cv" />
   <app-ai-workflow [heading]="data.headings.ai" [ai]="data.ai" />
   <app-contact
     [heading]="data.headings.contact"
     [contact]="data.contact"
     [location]="data.profile.location"
     [availability]="data.profile.availability"
+    [cv]="data.cv"
   />
 </main>
 

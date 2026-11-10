@@ -11,9 +11,9 @@ import { Component, input } from '@angular/core';
   styles: `
     :host {
       display: block;
-      border-top: 1px solid var(--line);
       padding-block: 28px;
-      font-size: 0.875rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.9rem;
       color: var(--muted);
     }
     .inner {
@@ -21,10 +21,6 @@ import { Component, input } from '@angular/core';
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 12px;
-    }
-    a {
-      color: var(--muted);
-      text-decoration: none;
     }
   `,
 })
