@@ -1,0 +1,23 @@
+<div class="container bar">
+  <a class="brand" href="#top" (click)="closeMenu()">{{ name() }}</a>
+
+  <button
+    type="button"
+    class="menu-btn"
+    [attr.aria-expanded]="menuOpen()"
+    aria-controls="site-nav"
+    (click)="toggleMenu()"
+  >
+    {{ menuOpen() ? 'Close' : 'Menu' }}
+  </button>
+
+  <nav id="site-nav" class="nav" [class.open]="menuOpen()" aria-label="Main">
+    <ul>
+      @for (link of links(); track link.target) {
+        <li>
+          <a [href]="'#' + link.target" (click)="closeMenu()">{{ link.label }}</a>
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

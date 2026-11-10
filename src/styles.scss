@@ -1,1 +1,260 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: dark;
+
+  --bg: #0f0f10;
+  --bg-raised: #161618;
+  --line: #27272b;
+  --text: #ececec;
+  --muted: #a0a0a6;
+  --accent: #e5b567;
+
+  --container: 1080px;
+  --header-h: 64px;
+
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--text);
+  text-decoration-color: rgb(229 181 103 / 0.6);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+
+  &:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+}
+
+::selection {
+  background: rgb(229 181 103 / 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 8px 14px;
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  border-radius: 4px;
+  text-decoration: none;
+
+  &:focus {
+    top: 12px;
+  }
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.section {
+  padding-block: 72px;
+  border-top: 1px solid var(--line);
+
+  @media (min-width: 900px) {
+    padding-block: 104px;
+  }
+}
+
+/* Section title in a narrow left column, content on the right. */
+.section-grid {
+  display: grid;
+  gap: 28px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 200px 1fr;
+    gap: 56px;
+  }
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+
+  @media (min-width: 900px) {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    align-self: start;
+    padding-top: 6px;
+  }
+}
+
+.lead {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Plain list of technologies: "C# · .NET · SQL Server" */
+.tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+
+  li:not(:last-child)::after {
+    content: '·';
+    margin-inline: 10px;
+    opacity: 0.6;
+  }
+}
+
+/* Bulleted list with a short dash. */
+.points {
+  list-style: none;
+  color: var(--muted);
+
+  li {
+    position: relative;
+    padding-left: 22px;
+
+    & + li {
+      margin-top: 6px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.85em;
+      width: 10px;
+      height: 1px;
+      background: var(--accent);
+    }
+  }
+}
+
+.status {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--muted);
+  white-space: nowrap;
+
+  &--progress {
+    color: var(--accent);
+    border-color: rgb(229 181 103 / 0.45);
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--text);
+  color: var(--bg);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+}
+
+.arrow-link {
+  font-weight: 500;
+  text-decoration: none;
+
+  span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover span {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:hover span {
+      transform: none;
+    }
+  }
+}

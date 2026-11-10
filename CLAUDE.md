@@ -17,21 +17,19 @@
 
 ## Tech
 - Angular (latest), standalone components, signals, SCSS. No SSR: the site is static, for GitHub Pages.
-- 3D: three.js inside ONE `HeroScene` component.
-  - Lazy-load it with `@defer` so the page opens fast.
-  - Clean up the renderer, geometries and listeners in `ngOnDestroy`.
-  - Pause the animation when the tab is hidden or the hero is off-screen.
-  - If `prefers-reduced-motion` is set, render one still frame and don't animate.
-- Scroll animations: GSAP + ScrollTrigger. Content must be visible even if the animation never runs.
+- No 3D for now (tried a full 3D world; it felt too busy). `three` is still installed but unused.
+- Scroll animations: GSAP + ScrollTrigger, subtle fade-up only. Content must be visible even if
+  the animation never runs.
 - Content lives in `src/app/data/portfolio.data.ts`, with typed interfaces in `src/app/models/`.
   Components only display data; they don't hard-code text.
 
 ## Design
 - One-page site, dark theme, mobile-first, fast (aim for Lighthouse Performance 90+).
-- Hero: a 3D network of glowing nodes connected by lines, like AI agents talking to each other.
-  It reacts gently to the mouse. My name and title sit in front of it.
+- Professional, editorial look that doesn't feel AI-generated: neutral dark palette, one warm
+  accent, serif headings, sans body, section titles in a left column, thin divider lines.
+- Avoid: neon glows, gradient text, glassmorphism, glowing borders, purple/cyan "AI" palettes,
+  emoji, numbered gradient cards, heavy motion.
 - Sections: Header, Hero, About, Skills, Experience, Projects, "How I build with AI", Contact, Footer.
-- Keep the 3D in the hero only. Everything else stays clean and readable.
 
 ## Content (source of truth: my CV)
 - Name: Hamza Abuqiyas. Title: .NET Developer | C# | ASP.NET Core | SQL Server | Angular
