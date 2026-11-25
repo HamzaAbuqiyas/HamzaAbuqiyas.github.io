@@ -78,16 +78,43 @@ export const PORTFOLIO: PortfolioData = {
 
   skillGroups: [
     {
+      name: 'Architecture',
+      skills: [
+        { name: 'Clean Architecture' },
+        { name: 'Vertical Slice Architecture' },
+        { name: 'CQRS' },
+        { name: 'Dependency Injection' },
+        { name: 'SOLID principles' },
+        { name: 'Microservices (basics)' },
+      ],
+    },
+    {
       name: 'Back end',
       skills: [
         { name: 'C#' },
-        { name: '.NET' },
-        { name: 'ASP.NET Core' },
+        { name: '.NET 10' },
+        { name: 'ASP.NET Core Web API' },
+        { name: 'Minimal APIs' },
         { name: 'ASP.NET MVC' },
+        { name: 'MediatR' },
+        { name: 'Carter' },
+        { name: 'REST API design' },
+        { name: 'Result pattern' },
+        { name: 'JWT authentication' },
+      ],
+    },
+    {
+      name: 'Database & reporting',
+      skills: [
+        { name: 'SQL Server' },
+        { name: 'PostgreSQL' },
+        { name: 'Marten (document DB)' },
+        { name: 'T-SQL' },
+        { name: 'Stored procedures' },
         { name: 'Entity Framework Core' },
         { name: 'LINQ' },
-        { name: 'REST APIs' },
-        { name: 'JWT authentication' },
+        { name: 'Relational database design' },
+        { name: 'RDLC / SSRS' },
       ],
     },
     {
@@ -95,25 +122,18 @@ export const PORTFOLIO: PortfolioData = {
       skills: [{ name: 'Angular' }, { name: 'TypeScript' }, { name: 'HTML5' }, { name: 'CSS3' }],
     },
     {
-      name: 'Database & reporting',
-      skills: [
-        { name: 'SQL Server' },
-        { name: 'T-SQL' },
-        { name: 'Stored procedures' },
-        { name: 'Relational database design' },
-        { name: 'RDLC / SSRS' },
-      ],
-    },
-    {
       name: 'Tools & practices',
       skills: [
+        { name: 'Visual Studio' },
         { name: 'Git' },
+        { name: 'GitHub' },
         { name: 'Azure Repos' },
         { name: 'Swagger' },
         { name: 'Postman' },
+        { name: 'Async/await with CancellationToken' },
+        { name: 'User Secrets' },
         { name: 'Agile' },
         { name: 'Code review' },
-        { name: 'Clean Architecture' },
       ],
     },
     {
@@ -123,9 +143,9 @@ export const PORTFOLIO: PortfolioData = {
     {
       name: 'Currently learning',
       skills: [
-        { name: 'Microservices', learning: true },
-        { name: 'RabbitMQ', learning: true },
         { name: 'Docker', learning: true },
+        { name: 'RabbitMQ', learning: true },
+        { name: 'DDD', learning: true },
       ],
     },
   ],
@@ -175,23 +195,26 @@ export const PORTFOLIO: PortfolioData = {
         'Implemented JWT authentication and role-based authorization.',
         'Integrated the machine learning prediction component with the application and database.',
       ],
-      tech: ['ASP.NET Core', 'Angular', 'EF Core', 'SQL Server', 'JWT'],
+      tech: ['ASP.NET Core', 'Clean Architecture', 'Angular', 'EF Core', 'SQL Server', 'JWT'],
       status: 'completed',
-      // TODO(Hamza): add repoUrl / liveUrl if they are public.
+      repoUrl: 'https://github.com/HamzaAbuqiyas/Hasad',
     },
     {
       name: 'HR / Employee Management System',
       subtitle: 'Microservices learning project',
       description:
-        'A learning project where I am splitting an HR system into microservices, ' +
-        'following Clean Architecture.',
+        'A learning project where I am building an HR system as independent .NET 10 services, ' +
+        'one phase at a time, and documenting what I learn along the way.',
       highlights: [
-        '.NET services structured with Clean Architecture.',
-        'Learning service-to-service messaging with RabbitMQ.',
-        'Learning to containerize services with Docker.',
+        'Employees service with Clean Architecture and CQRS (MediatR), EF Core and SQL Server, ' +
+          'soft delete and a manager hierarchy with loop checks.',
+        'Leave service with Vertical Slice Architecture: Minimal APIs with Carter, ' +
+          'and Marten storing documents in PostgreSQL.',
+        'Each service owns its own database. Next: Docker, then messaging with RabbitMQ.',
       ],
-      tech: ['.NET', 'Clean Architecture', 'RabbitMQ', 'Docker'],
+      tech: ['.NET 10', 'Clean Architecture', 'Vertical Slice', 'CQRS', 'MediatR', 'Carter', 'PostgreSQL'],
       status: 'in-progress',
+      repoUrl: 'https://github.com/HamzaAbuqiyas/HrSystem',
     },
   ],
 
@@ -232,9 +255,12 @@ export const PORTFOLIO: PortfolioData = {
       'Email is the best way to reach me.',
     links: [
       { label: 'Email', value: 'hselawe111@gmail.com', url: 'mailto:hselawe111@gmail.com' },
-      // TODO(Hamza): add LinkedIn and GitHub, for example:
-      // { label: 'LinkedIn', value: 'linkedin.com/in/your-handle', url: 'https://linkedin.com/in/your-handle' },
-      // { label: 'GitHub', value: 'github.com/your-handle', url: 'https://github.com/your-handle' },
+      {
+        label: 'LinkedIn',
+        value: 'linkedin.com/in/hamza-abu-qiyas-5b9237381',
+        url: 'https://www.linkedin.com/in/hamza-abu-qiyas-5b9237381/',
+      },
+      { label: 'GitHub', value: 'github.com/HamzaAbuqiyas', url: 'https://github.com/HamzaAbuqiyas' },
     ],
     copyLabel: 'Copy email',
     copiedLabel: 'Copied!',
@@ -247,7 +273,7 @@ export const PORTFOLIO: PortfolioData = {
     title: 'Hamza Abuqiyas — CV',
     description:
       'A one-page summary of my experience, technical skills, projects, education and certifications.',
-    meta: 'PDF · 1 page · 46 KB',
+    meta: 'PDF · 1 page · 47 KB',
     downloadLabel: 'Download CV',
     viewLabel: 'View in browser',
   },

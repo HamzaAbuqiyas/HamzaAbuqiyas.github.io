@@ -43,12 +43,15 @@
   - Web Development Intern, Bayanat (Jul 2025 – Sep 2025).
 - Projects:
   - Hasad: AI-powered crop yield prediction platform (graduation project, team leader of 4).
-    ASP.NET Core Web API, Angular, EF Core, SQL Server, JWT + role-based auth, ML model integration.
+    ASP.NET Core Web API (Clean Architecture), Angular, EF Core, SQL Server, JWT + role-based auth,
+    ML model integration. Repo: https://github.com/HamzaAbuqiyas/Hasad
   - HR / Employee Management System: microservices learning project, IN PROGRESS.
-    .NET, Clean Architecture; learning RabbitMQ and Docker. Label it clearly as "In progress".
+    .NET 10; Employees service = Clean Architecture + CQRS (MediatR) + EF Core/SQL Server;
+    Leave service = Vertical Slice + Minimal APIs/Carter + Marten/PostgreSQL. Next: Docker, RabbitMQ.
+    Label it clearly as "In progress". Repo: https://github.com/HamzaAbuqiyas/HrSystem
 - Education: B.Sc. Software Engineering, Applied Science Private University (2022 – 2026).
 - Do NOT invent skills, numbers, clients or experience. Don't include internal figures about my
   employer's systems.
 
 ## Deploy
-- GitHub Pages. Help me set it up at the end, once everything works locally.
+- GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`.

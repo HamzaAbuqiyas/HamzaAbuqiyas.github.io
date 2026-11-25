@@ -1,9 +1,9 @@
-# Builds the Angular site and publishes it to GitHub Pages on every push to master.
+# Builds the Angular site and publishes it to GitHub Pages on every push to main.
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   # Also allow running it by hand from the "Actions" tab.
   workflow_dispatch:
 

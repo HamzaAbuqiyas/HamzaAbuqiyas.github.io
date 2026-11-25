@@ -46,3 +46,6 @@ Thumbs.db
 # Personal originals (the public CV copy lives in public/files/)
 /Hamza_Abuqiyas_CV.pdf
 /WhatsApp Image*
+
+# Personal editor / assistant settings
+.claude/settings.local.json
